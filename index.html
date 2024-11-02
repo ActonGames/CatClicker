@@ -11,7 +11,7 @@
             margin: 0;
             padding: 20px;
             color: #ff69b4;
-            display: flex; /* Use flexbox for main layout */
+            display: flex; /* Use flexbox for the main layout */
             justify-content: center; /* Center children horizontally */
             align-items: center; /* Center children vertically */
             height: 100vh; /* Full viewport height */
@@ -19,7 +19,7 @@
         }
 
         .container {
-            display: flex; /* Use flexbox inside main container */
+            display: flex; /* Use flexbox inside the main container */
             justify-content: space-between;
             width: 80%; /* Set a fixed width for the central container */
         }
@@ -30,6 +30,7 @@
             align-items: center;
             justify-content: center; /* Center children vertically */
             flex: 1; /* Allow it to grow */
+            padding: 20px; /* Add padding for spacing */
         }
 
         .right-panel {
@@ -43,6 +44,7 @@
             display: flex;
             flex-direction: column; /* Make sure upgrades stack vertically */
             align-items: center; /* Center upgrades */
+            padding: 20px; /* Add padding for spacing */
         }
 
         #clickable {
@@ -50,10 +52,10 @@
             height: 200px; /* Fixed height on desktop */
             cursor: pointer;
             transition: transform 0.1s;
-            margin: 20px;
             background-size: cover;
             background-position: center;
             border-radius: 50%;
+            margin-bottom: 20px; /* Space out from statistics */
         }
 
         #clickable:active {
@@ -80,7 +82,7 @@
             background-color: white;
             border: 2px solid #ffb6c1;
             padding: 15px;
-            margin: 10px 0;
+            margin: 15px 0; /* Increase margin for spacing */
             border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s;
@@ -144,19 +146,24 @@
             .container {
                 flex-direction: column; /* Stack items vertically */
                 align-items: center;
+                width: 90%; /* Decrease container width */
+            }
+            .left-panel,
+            .right-panel {
+                width: 100%; /* Make both panels full width on mobile */
+                margin-bottom: 20px; /* Space between panels */
             }
             #clickable {
                 width: 80%; /* Make it wider on mobile */
                 height: auto; /* Auto height */
-                aspect-ratio: 1; /* Maintain aspect ratio */
                 max-width: 300px; /* Limit max width */
+                aspect-ratio: 1; /* Maintain aspect ratio */
             }
             #stats {
-                max-width: 100%; /* Full width on mobile */
+                max-width: none; /* Full width on mobile */
             }
-            .right-panel {
-                max-height: none; /* Remove height restrictions */
-                padding: 10px;
+            .upgrade {
+                margin: 20px 0; /* Increase margin for spacing */
             }
         }
     </style>
