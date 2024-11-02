@@ -1,27 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clickable Game</title>
     <style>
-        /* Previous styles remain the same */
         body {
             background-color: #fff0f5;
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
             color: #ff69b4;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            height: 100vh;
+            display: flex; /* Use flexbox for main layout */
+            justify-content: center; /* Center children horizontally */
+            align-items: center; /* Center children vertically */
+            height: 100vh; /* Full viewport height */
             box-sizing: border-box;
+        }
+
+        .container {
+            display: flex; /* Use flexbox inside main container */
+            justify-content: space-between;
+            width: 80%; /* Set a fixed width for the central container */
         }
 
         .left-panel {
             display: flex;
             flex-direction: column;
             align-items: center;
-            position: sticky;
-            top: 20px;
+            justify-content: center; /* Center children vertically */
+            flex: 1; /* Allow it to grow */
         }
 
         .right-panel {
@@ -31,11 +39,15 @@
             box-shadow: 0 0 15px rgba(255, 105, 180, 0.2);
             max-height: calc(100vh - 40px);
             overflow-y: auto;
+            flex: 1; /* Allow it to grow */
+            display: flex;
+            flex-direction: column; /* Make sure upgrades stack vertically */
+            align-items: center; /* Center upgrades */
         }
 
         #clickable {
-            width: 200px;
-            height: 200px;
+            width: 200px; /* Fixed width on desktop */
+            height: 200px; /* Fixed height on desktop */
             cursor: pointer;
             transition: transform 0.1s;
             margin: 20px;
@@ -45,7 +57,7 @@
         }
 
         #clickable:active {
-            transform: scale(0.95);
+            transform: scale(0.95); /* Click animation */
         }
 
         #stats {
@@ -53,7 +65,7 @@
             padding: 20px;
             border-radius: 15px;
             box-shadow: 0 0 15px rgba(255, 105, 180, 0.2);
-            width: 100%;
+            width: 100%; /* Full width for stats */
             max-width: 300px;
             margin-top: 20px;
         }
@@ -76,6 +88,9 @@
             grid-template-columns: 1fr auto;
             gap: 10px;
             align-items: center;
+            min-height: 60px; /* Good touch target */
+            font-size: 1em; /* Responsive text size */
+            width: 100%; /* Full width */
         }
 
         .upgrade:hover:not(:disabled) {
@@ -116,28 +131,52 @@
         }
 
         .category-header {
-            margin: 20px 0 10px 0;
+            margin: 20px 0 10px;
             padding-top: 10px;
             border-top: 2px solid #ffb6c1;
             color: #ff1493;
         }
+
+        @media (max-width: 768px) {
+            body {
+                height: auto; /* Height auto for mobile */
+            }
+            .container {
+                flex-direction: column; /* Stack items vertically */
+                align-items: center;
+            }
+            #clickable {
+                width: 80%; /* Make it wider on mobile */
+                height: auto; /* Auto height */
+                aspect-ratio: 1; /* Maintain aspect ratio */
+                max-width: 300px; /* Limit max width */
+            }
+            #stats {
+                max-width: 100%; /* Full width on mobile */
+            }
+            .right-panel {
+                max-height: none; /* Remove height restrictions */
+                padding: 10px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="left-panel">
-        <!-- Replace the src attribute with your desired image URL -->
-        <div id="clickable" style="background-image: url('https://imgs.search.brave.com/nm-f1yjacy1eNLuTq1JT6Re9Jf0zy2DFlevLo4FqoaU/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzA2LzgxLzA2LzAz/LzM2MF9GXzY4MTA2/MDMwOF9WMENDZW0w/U0hHVWc0TE9iTjhJ/SHFzYWhLb0hhVXMy/ei5qcGc')"></div>
-        <div id="stats">
-            <h2 style="margin-top: 0;">Statistics</h2>
-            <div>Points: <span id="points" class="stat-value">0</span></div>
-            <div>Per Click: <span id="pointsPerClick" class="stat-value">1</span></div>
-            <div id="points-per-second">Points per second: <span id="pointsPerSecond">0</span></div>
+    <div class="container">
+        <div class="left-panel">
+            <div id="clickable" style="background-image: url('https://imgs.search.brave.com/nm-f1yjacy1eNLuTq1JT6Re9Jf0zy2DFlevLo4FqoaU/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzA2LzgxLzA2LzAz/LzM2MF9GXzY4MTA2/MDMwOF9WMENDZW0w/U0hHVWc0TE9iTjhJ/SHFzYWhLb0hhVXMy/ei5qcGc')"></div>
+            <div id="stats">
+                <h2 style="margin-top: 0;">Statistics</h2>
+                <div>Points: <span id="points" class="stat-value">0</span></div>
+                <div>Per Click: <span id="pointsPerClick" class="stat-value">1</span></div>
+                <div id="points-per-second">Points per second: <span id="pointsPerSecond">0</span></div>
+            </div>
         </div>
-    </div>
 
-    <div class="right-panel">
-        <h2>Upgrades</h2>
-        <div id="upgradeContainer"></div>
+        <div class="right-panel">
+            <h2>Upgrades</h2>
+            <div id="upgradeContainer"></div>
+        </div>
     </div>
 
     <script>
@@ -327,8 +366,7 @@
             }
         ];
 
-        // Add more upgrades for total of 35...
-        // Generate additional tiers of upgrades
+        // Add additional upgrades for a total of 35
         for (let i = 1; i <= 20; i++) {
             upgrades.push({
                 id: `mega${i}`,
